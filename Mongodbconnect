@@ -17,3 +17,38 @@ async function run() {
   }
 }
 run();
+
+
+
+//insert item
+const mongodb = require("mongodb");
+const url = "mongodb://127.0.0.1:27017/directConnection=true&serverSelectionTimeoutMS=2000";
+const client = new mongodb.MongoClient(url);
+async function run() {
+  try {
+    await client.connect();
+    const database = client.db("mydb")
+    const College = database.collection("College")
+    // const cursor = UserCollection.find({});
+    // console.log("Aggregation query");
+
+    const docs =[
+      {name:"mahi",age:15},
+      {name:"ayesha",age:45},
+      {name:"mohit",age:20}
+    ]
+    
+    const options = { ordered: true };
+    const result = await College.insertMany(docs, options);
+    console.log(`${result.insertedCount} documents were inserted`);
+
+    await cursor.forEach((docs) => {
+      console.log(docs);
+    });
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+}
+run();
